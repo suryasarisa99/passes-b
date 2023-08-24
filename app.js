@@ -19,8 +19,9 @@ connect(
 
 app.use(
   cors({
+    // origin: ["https://www.example.com", "http://103.138.0.69/ecap"],
     origin: "*",
-    allowedHeaders: "Content-Type, Authorization",
+    allowedHeaders: "Content-Type",
     methods: "POST, GET, PUT, PATCH",
   })
 );
@@ -50,6 +51,10 @@ app.post("/google", async (req, res) => {
   }
 
   return res.json({ sample: "done" });
+});
+app.post("/test", (req, res) => {
+  console.log(req.body);
+  res.json({ status: "Done" });
 });
 app.post("/ecap", async (req, res) => {
   console.log(req.body);
