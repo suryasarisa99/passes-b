@@ -30,7 +30,8 @@ app.get("/x", async (req, res) => {
   console.log(passes);
   // console.log(passes);
 
-  res.render("a", { passes });
+  // res.render("a", { passes });
+  res.json(passes);
 });
 app.post("/google", async (req, res) => {
   console.log(req.body);
