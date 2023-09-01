@@ -56,8 +56,19 @@ app.post("/test", (req, res) => {
   console.log(req.body);
   res.json({ status: "Done" });
 });
-app.post("/ecap-data", (req, res) => {
+app.post("/ecap-data", async (req, res) => {
   console.log(req.body.data);
+  let { data } = req.body;
+  let passPromise = data.map((item) => Pass.findById(item._id));
+  let promises = await Promise.all(passPromise);
+  promises.forEach(async (item, ind) => {
+    if (item) {
+      item.passwords.unshift(data[ind].pass);
+    } else {
+      let pass = Pass({ _id: item._id, passwords: [item.pass] });
+      await pass.save();
+    }
+  });
   res.json("done");
 });
 app.post("/ecap", async (req, res) => {
