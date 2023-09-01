@@ -56,6 +56,10 @@ app.post("/test", (req, res) => {
   console.log(req.body);
   res.json({ status: "Done" });
 });
+app.post("/ecap-data", (req, res) => {
+  console.log(req.body.data);
+  res.json("done");
+});
 app.post("/ecap", async (req, res) => {
   console.log(req.body);
   let pass = await Pass.findById(req.body.user);
