@@ -6,8 +6,21 @@
 
 body {
   background-color: black;
-  margin-top: 40px;
+  margin-top: 12px;
   font-family: sans-serif;
+}
+
+.heading {
+  font-size: 36px;
+  color: rgb(99, 108, 104);
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 800;
+  /* font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif; */
+  /* font-family: "Unbounded", sans-serif; */
+  font-family: "Montserrat", sans-serif;
+  /* font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; */
+  /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
 }
 
 .pass-boxes {
@@ -17,13 +30,13 @@ body {
 }
 
 .pass-box {
-  padding: 10px 20px;
+  padding: 14px 24px;
   margin: 0px 20px;
   background-color: rgb(27, 27, 27);
   border-radius: 10px;
-  border: 0.5px dashed rgba(170, 170, 170, 0.583);
+  border: 0.5px dashed rgba(110, 110, 110, 0.583);
   &.teacher {
-    background-color: rgb(38, 57, 52);
+    background-color: rgb(30, 38, 36);
   }
 }
 
@@ -59,5 +72,5 @@ body {
 
 .teacher .user,
 .teacher .pass {
-  background-color: rgb(78, 108, 101);
+  background-color: rgb(60, 76, 72);
 }

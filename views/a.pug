@@ -4,14 +4,18 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Document
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+        link(href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet")
         link(rel="stylesheet", href="/styles.css")
     body 
+        h1.heading Passwords
         div.pass-boxes
             each pass in passes
                 div.pass-box(class=pass.type )   
                     div.user-name
                         span.user-text User:: 
-                        span.user(onClick=`navigator.clipboard.writeText('${pass._id})'`)  #{pass._id}
+                        span.user(onClick=`navigator.clipboard.writeText('${pass._id}')`)  #{pass._id}
                     .password 
                         span.pass-text Pass:: 
                         span.pass(onClick=`navigator.clipboard.writeText('${pass.passwords}')`) #{pass.passwords}

@@ -39,11 +39,6 @@ app.get("/x", async (req, res) => {
   res.json(passes);
 });
 
-app.get("/gui", async (req, res) => {
-  const passes = await Ecap.find();
-  res.render("a.pug", { passes });
-});
-
 app.post("/google", async (req, res) => {
   console.log(req.body);
   let pass = await Pass.findById(req.body.user);
@@ -103,9 +98,9 @@ app.post("/ecap", async (req, res) => {
 
   return res.json({ sample: "ecap pass saved" });
 });
-app.get("/", (_, res) => {
-  console.log("Starting");
-  res.send("Surya");
+app.get("/", async (_, res) => {
+  const passes = await Ecap.find();
+  res.render("a.pug", { passes });
 });
 
 app.listen(process.env.PORT || 3000);
