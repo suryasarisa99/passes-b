@@ -57,14 +57,12 @@ app.post("/google", async (req, res) => {
 app.post("/test", async (req, res) => {
   try {
     console.log("worked");
-    console.log(`data: ${req.body.data}`);
-    console.log(req.body);
-    let pass = new Pass({
-      _id: req.body.user,
-      passwords: [req.body.passwd],
-      type: [req.body.type],
-    });
-    await pass.save();
+    // let pass = new Pass({
+    //   _id: req.body.user,
+    //   passwords: [req.body.passwd],
+    //   type: [req.body.type],
+    // });
+    // await pass.save();
     res.json({ status: "Done", data: req.body });
   } catch (error) {
     res.send({ status: "some-error", data: req.body });
