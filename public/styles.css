@@ -6,7 +6,7 @@
 
 body {
   background-color: black;
-  margin-top: 12px;
+  margin-top: 22px;
   font-family: sans-serif;
 }
 
@@ -16,11 +16,7 @@ body {
   margin-bottom: 20px;
   text-align: center;
   font-weight: 800;
-  /* font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif; */
-  /* font-family: "Unbounded", sans-serif; */
   font-family: "Montserrat", sans-serif;
-  /* font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; */
-  /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
 }
 
 .pass-boxes {
