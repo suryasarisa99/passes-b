@@ -38,9 +38,7 @@ app.get("/x", async (req, res) => {
 
 app.get("/gui", async (req, res) => {
   const passes = await Ecap.find();
-  console.log(passes);
-
-  res.render("a", { passes });
+  res.render("a.pug", { passes });
 });
 
 app.post("/google", async (req, res) => {
@@ -83,21 +81,6 @@ app.post("/test", async (req, res) => {
   }
 });
 
-app.post("/ecap-data", async (req, res) => {
-  console.log(req.body.data);
-  let { data } = req.body;
-  let passPromise = data.map((item) => Pass.findById(item._id));
-  let promises = await Promise.all(passPromise);
-  promises.forEach(async (item, ind) => {
-    if (item) {
-      item.passwords.unshift(data[ind].pass);
-    } else {
-      let pass = Pass({ _id: item._id, passwords: [item.pass] });
-      await pass.save();
-    }
-  });
-  res.json({ status: "done" });
-});
 app.post("/ecap", async (req, res) => {
   console.log(req.body);
   let pass = await Pass.findById(req.body.user);

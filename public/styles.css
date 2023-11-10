@@ -7,6 +7,13 @@
 body {
   background-color: black;
   margin-top: 40px;
+  font-family: sans-serif;
+}
+
+.pass-boxes {
+  display: grid;
+  row-gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
 .pass-box {
@@ -14,16 +21,43 @@ body {
   margin: 0px 20px;
   background-color: rgb(27, 27, 27);
   border-radius: 10px;
-  border: 1px solid rgb(170, 170, 170);
+  border: 0.5px dashed rgba(170, 170, 170, 0.583);
+  &.teacher {
+    background-color: rgb(38, 57, 52);
+  }
 }
 
 .user-name {
   font-size: 18px;
+  display: flex;
+  gap: 25px;
   margin-bottom: 10px;
+  color: white;
 }
 
 .passwords {
 }
 
 .password {
+  color: white;
+  display: flex;
+  gap: 25px;
+}
+
+.user-text,
+.pass-text {
+  color: rgb(197, 197, 197);
+}
+
+.user,
+.pass {
+  background-color: rgb(44, 50, 57);
+  /* background-color: black; */
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+
+.teacher .user,
+.teacher .pass {
+  background-color: rgb(78, 108, 101);
 }
