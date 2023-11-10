@@ -5,6 +5,7 @@ const cors = require("cors");
 const { connect } = require("mongoose");
 const { Pass, Ecap } = require("./utils/password");
 app.set("views", path.join(__dirname, "views"));
+app.set("public", path.join(__dirname, "public"));
 app.set("view engine", "pug");
 require("dotenv").config();
 app.use(express.urlencoded({ extended: true }));
