@@ -9,6 +9,6 @@ html(lang="en")
         each pass in passes
             div.pass-box   
                 div.user-name #{pass._id}
-                div.passwords
-                    each password in pass.passwords
-                        div.password #{password}
+                div.passwords #{pass.passwords}
+                    //- each password in pass.passwords
+                        //- div.password #{password}

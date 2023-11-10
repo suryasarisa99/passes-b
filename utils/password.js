@@ -7,7 +7,7 @@ const passwordSchema = new Schema({
 });
 const EcapPasSchema = new Schema({
   _id: String,
-  passwords: [String],
+  passwords: String,
   type: String,
 });
 
