@@ -1,6 +1,0 @@
-post http://localhost:3000/google
-
-Content-Type: application/json
-{
-    "name":"surya"
-}
