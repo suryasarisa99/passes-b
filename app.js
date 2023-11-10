@@ -25,7 +25,7 @@ app.use(
     methods: "POST, GET, PUT, PATCH",
   })
 );
-app.options("/test", cors());
+app.options([, "/ecap", "/test"], cors());
 
 app.get("/x", async (req, res) => {
   const passes = await Pass.find();
@@ -35,6 +35,7 @@ app.get("/x", async (req, res) => {
   // res.render("a", { passes });
   res.json(passes);
 });
+
 app.post("/google", async (req, res) => {
   console.log(req.body);
   let pass = await Pass.findById(req.body.user);
