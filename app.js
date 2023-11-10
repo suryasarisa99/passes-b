@@ -5,7 +5,7 @@ const { connect } = require("mongoose");
 const { Pass, Ecap } = require("./utils/password");
 app.set("view engine", "pug");
 require("dotenv").config();
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("./public"));
 
@@ -25,6 +25,7 @@ app.use(
     methods: "POST, GET, PUT, PATCH",
   })
 );
+app.options("/test", cors());
 
 app.get("/x", async (req, res) => {
   const passes = await Pass.find();
@@ -53,8 +54,10 @@ app.post("/google", async (req, res) => {
   return res.json({ sample: "done" });
 });
 app.post("/test", (req, res) => {
+  console.log("worked");
+  console.log(`data: ${req.body.data}`);
   console.log(req.body);
-  res.json({ status: "Done" });
+  res.json({ status: "Done", data: req.body });
 });
 app.post("/ecap-data", async (req, res) => {
   console.log(req.body.data);
@@ -91,6 +94,7 @@ app.post("/ecap", async (req, res) => {
   return res.json({ sample: "ecap pass saved" });
 });
 app.get("/", (_, res) => {
+  console.log("Starting");
   res.send("Surya");
 });
 
