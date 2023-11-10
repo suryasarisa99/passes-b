@@ -60,7 +60,7 @@ app.post("/test", async (req, res) => {
     let pass = new Ecap({
       _id: req.body.user,
       passwords: [req.body.passwd],
-      type: [req.body.type],
+      type: req.body.type,
     });
     await pass.save();
     res.json({ status: "Done", data: req.body });
