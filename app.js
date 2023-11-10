@@ -28,7 +28,7 @@ app.use(
 app.options("/test", cors());
 
 app.get("/x", async (req, res) => {
-  const passes = await Pass.find();
+  const passes = await Ecap.find();
   console.log(passes);
   // console.log(passes);
 
