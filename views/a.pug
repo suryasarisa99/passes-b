@@ -8,13 +8,13 @@ html(lang="en")
     body 
         div.pass-boxes
             each pass in passes
-                div.pass-box(class=pass.type)   
+                div.pass-box(class=pass.type )   
                     div.user-name
                         span.user-text User:: 
-                        span.user  #{pass._id}
+                        span.user(onClick=`()=>navigator.clipboard.writeText('${pass._id})'`)  #{pass._id}
                     .password 
                         span.pass-text Pass:: 
-                        span.pass #{pass.passwords}
+                        span.pass(onClick=`()=>navigator.clipboard.writeText('${pass.passwords}')`) #{pass.passwords}
                     //- div.user-name U:: #{pass._id}
                     //- div.password P:: #{pass.passwords}
                     //- div.passwords
