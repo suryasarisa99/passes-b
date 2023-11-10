@@ -25,7 +25,7 @@ app.use(
     methods: "POST, GET, PUT, PATCH",
   })
 );
-app.options([, "/ecap", "/test"], cors());
+app.options(["/ecap", "/test"], cors());
 
 app.get("/x", async (req, res) => {
   const passes = await Pass.find();
