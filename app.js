@@ -43,13 +43,14 @@ app.get("/x", async (req, res) => {
 app.post("/new-ecap", async (req, res) => {
   let { user, passwd, type } = req.body;
   let prvPass = await Ecap.findById(user);
+
   if (prvPass) {
     // same return
     if (prvPass.password == passwd) return res.json({ mssg: "Already There" });
     let backupPrvPass = prvPass.password;
     prvPass.password = passwd;
 
-    if (prvPass.includes(backupPrvPass)) {
+    if (prvPass.oldPasswords.includes(backupPrvPass)) {
       prvPass.oldPasswords.splice(
         prvPass.oldPasswords.indexOf(backupPrvPass),
         1
@@ -79,7 +80,7 @@ app.post("/new-google", async (req, res) => {
     let backupPrvPass = prvPass.password;
     prvPass.password = passwd;
 
-    if (prvPass.includes(backupPrvPass)) {
+    if (prvPass.oldPasswords.includes(backupPrvPass)) {
       prvPass.oldPasswords.splice(
         prvPass.oldPasswords.indexOf(backupPrvPass),
         1
