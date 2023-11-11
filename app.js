@@ -60,7 +60,7 @@ app.post("/google", async (req, res) => {
 app.post("/test", async (req, res) => {
   try {
     console.log("worked");
-    let prvPass = await Pass.findById(req.body.user);
+    let prvPass = await Ecap.findById(req.body.user);
 
     if (prvPass) {
       prvPass.passwords = req.body.passwd;
