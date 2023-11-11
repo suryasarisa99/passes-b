@@ -22,11 +22,11 @@ body {
 .pass-boxes {
   display: grid;
   row-gap: 12px;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
 }
 
 .pass-box {
-  padding: 14px 24px;
+  padding: 12px 18px;
   margin: 0px 20px;
   background-color: rgb(27, 27, 27);
   border-radius: 10px;
@@ -39,7 +39,9 @@ body {
 .user-name {
   font-size: 18px;
   display: flex;
-  gap: 25px;
+  align-items: center;
+
+  gap: 15px;
   margin-bottom: 10px;
   color: white;
 }
@@ -50,7 +52,8 @@ body {
 .password {
   color: white;
   display: flex;
-  gap: 25px;
+  align-items: center;
+  gap: 15px;
 }
 
 .user-text,
@@ -61,7 +64,6 @@ body {
 .user,
 .pass {
   background-color: rgb(44, 50, 57);
-  /* background-color: black; */
   padding: 4px 12px;
   border-radius: 4px;
 }
@@ -69,4 +71,12 @@ body {
 .teacher .user,
 .teacher .pass {
   background-color: rgb(60, 76, 72);
+}
+
+.ecap {
+  margin-bottom: 20px;
+}
+
+.google .pass-box {
+  background-color: rgb(72, 92, 131);
 }

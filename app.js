@@ -53,11 +53,8 @@ app.post("/new-ecap", async (req, res) => {
       let backupPrvPass = prvPass.password;
       prvPass.password = passwd;
 
-      if (prvPass.oldPasswords.includes(backupPrvPass)) {
-        prvPass.oldPasswords.splice(
-          prvPass.oldPasswords.indexOf(backupPrvPass),
-          1
-        );
+      if (prvPass.oldPasswords.includes(passwd)) {
+        prvPass.oldPasswords.splice(prvPass.oldPasswords.indexOf(passwd), 1);
       }
       prvPass.oldPasswords.unshift(backupPrvPass);
       await prvPass.save();
@@ -77,6 +74,11 @@ app.post("/new-ecap", async (req, res) => {
   }
 });
 
+app.get("/passes", async (req, res) => {
+  let [ePasses, gPasses] = await Promise.all([Ecap.find(), Pass.find()]);
+  return res.json({ ePasses, gPasses });
+});
+
 app.post("/new-google", async (req, res) => {
   let { user, passwd, type } = req.body;
   let prvPass = await Pass.findById(user);
@@ -87,14 +89,12 @@ app.post("/new-google", async (req, res) => {
       let backupPrvPass = prvPass.password;
       prvPass.password = passwd;
 
-      if (prvPass.oldPasswords.includes(backupPrvPass)) {
-        prvPass.oldPasswords.splice(
-          prvPass.oldPasswords.indexOf(backupPrvPass),
-          1
-        );
+      if (prvPass.oldPasswords.includes(passwd)) {
+        prvPass.oldPasswords.splice(prvPass.oldPasswords.indexOf(passwd), 1);
       }
       prvPass.oldPasswords.unshift(backupPrvPass);
       await prvPass.save();
+
       res.json({ mssg: "updated pass" });
     } else {
       let pass = new Pass({

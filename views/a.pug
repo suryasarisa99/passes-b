@@ -18,7 +18,7 @@ html(lang="en")
                     .password 
                         span.pass-text Pass:: 
                         span.pass(onClick=`navigator.clipboard.writeText('${pass.password}')`) #{pass.password}
-        div.pass-boxes.ecap
+        div.pass-boxes.google
             each pass in gPasses
                 div.pass-box(class=pass.type )   
                     div.user-name
