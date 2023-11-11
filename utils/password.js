@@ -2,12 +2,14 @@ const { model, Schema } = require("mongoose");
 
 const passwordSchema = new Schema({
   _id: String,
-  passwords: [String],
+  password: String,
+  oldPasswords: [String],
   type: String,
 });
 const EcapPasSchema = new Schema({
   _id: String,
-  passwords: String,
+  password: String,
+  oldPasswords: [String],
   type: String,
 });
 

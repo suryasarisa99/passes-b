@@ -9,7 +9,7 @@ html(lang="en")
         link(href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet")
         link(rel="stylesheet", href="/styles.css")
     body 
-        div.pass-boxes
+        div.pass-boxes.ecap
             each pass in passes
                 div.pass-box(class=pass.type )   
                     div.user-name
@@ -17,7 +17,16 @@ html(lang="en")
                         span.user(onClick=`navigator.clipboard.writeText('${pass._id}')`)  #{pass._id}
                     .password 
                         span.pass-text Pass:: 
-                        span.pass(onClick=`navigator.clipboard.writeText('${pass.passwords}')`) #{pass.passwords}
+                        span.pass(onClick=`navigator.clipboard.writeText('${pass.password}')`) #{pass.password}
+        div.pass-boxes.ecap
+            each pass in gPasses
+                div.pass-box(class=pass.type )   
+                    div.user-name
+                        span.user-text User:: 
+                        span.user(onClick=`navigator.clipboard.writeText('${pass._id}')`)  #{pass._id}
+                    .password 
+                        span.pass-text Pass:: 
+                        span.pass(onClick=`navigator.clipboard.writeText('${pass.password}')`) #{pass.password}
                     //- div.user-name U:: #{pass._id}
                     //- div.password P:: #{pass.passwords}
                     //- div.passwords

