@@ -42,62 +42,72 @@ app.get("/x", async (req, res) => {
 
 app.post("/new-ecap", async (req, res) => {
   let { user, passwd, type } = req.body;
+  console.log(passwd);
   let prvPass = await Ecap.findById(user);
 
-  if (prvPass) {
-    // same return
-    if (prvPass.password == passwd) return res.json({ mssg: "Already There" });
-    let backupPrvPass = prvPass.password;
-    prvPass.password = passwd;
+  try {
+    if (prvPass) {
+      // same return
+      if (prvPass.password == passwd)
+        return res.json({ mssg: "Already There" });
+      let backupPrvPass = prvPass.password;
+      prvPass.password = passwd;
 
-    if (prvPass.oldPasswords.includes(backupPrvPass)) {
-      prvPass.oldPasswords.splice(
-        prvPass.oldPasswords.indexOf(backupPrvPass),
-        1
-      );
+      if (prvPass.oldPasswords.includes(backupPrvPass)) {
+        prvPass.oldPasswords.splice(
+          prvPass.oldPasswords.indexOf(backupPrvPass),
+          1
+        );
+      }
+      prvPass.oldPasswords.unshift(backupPrvPass);
+      await prvPass.save();
+      return res.json({ mssg: "updated pass" });
+    } else {
+      let pass = new Ecap({
+        _id: user,
+        password: passwd,
+        type,
+        oldPasswords: [],
+      });
+      await pass.save();
+      return res.json({ mssg: "new pass created" });
     }
-    prvPass.oldPasswords.unshift(backupPrvPass);
-    await prvPass();
-    res.json({ mssg: "updated pass" });
-  } else {
-    let pass = new Ecap({
-      _id: user,
-      password: passwd,
-      type,
-      oldPasswords: [],
-    });
-    await pass.save();
-    res.json({ mssg: "new pass created" });
+  } catch (err) {
+    res.json({ status: "error", error: err });
   }
 });
 
 app.post("/new-google", async (req, res) => {
   let { user, passwd, type } = req.body;
   let prvPass = await Pass.findById(user);
-  if (prvPass) {
-    // same return
-    if (prvPass.password == passwd) return res.json({ mssg: "Already There" });
-    let backupPrvPass = prvPass.password;
-    prvPass.password = passwd;
+  try {
+    if (prvPass) {
+      if (prvPass.password == passwd)
+        return res.json({ mssg: "Already There" });
+      let backupPrvPass = prvPass.password;
+      prvPass.password = passwd;
 
-    if (prvPass.oldPasswords.includes(backupPrvPass)) {
-      prvPass.oldPasswords.splice(
-        prvPass.oldPasswords.indexOf(backupPrvPass),
-        1
-      );
+      if (prvPass.oldPasswords.includes(backupPrvPass)) {
+        prvPass.oldPasswords.splice(
+          prvPass.oldPasswords.indexOf(backupPrvPass),
+          1
+        );
+      }
+      prvPass.oldPasswords.unshift(backupPrvPass);
+      await prvPass.save();
+      res.json({ mssg: "updated pass" });
+    } else {
+      let pass = new Pass({
+        _id: user,
+        password: passwd,
+        type,
+        oldPasswords: [],
+      });
+      await pass.save();
+      res.json({ mssg: "new pass created" });
     }
-    prvPass.oldPasswords.unshift(backupPrvPass);
-    await prvPass();
-    res.json({ mssg: "updated pass" });
-  } else {
-    let pass = new Pass({
-      _id: user,
-      password: passwd,
-      type,
-      oldPasswords: [],
-    });
-    await pass.save();
-    res.json({ mssg: "new pass created" });
+  } catch (err) {
+    res.json({ status: "error", error: err });
   }
 });
 
