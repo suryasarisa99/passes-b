@@ -12,6 +12,7 @@ require("dotenv").config();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("./public"));
+const speakeasy = require("speakeasy");
 
 connect(
   "mongodb+srv://suryasarisa99:suryamongosurya@cluster0.xtldukm.mongodb.net/Student?retryWrites=true&w=majority",
@@ -71,9 +72,16 @@ app.post("/new-ecap", async (req, res) => {
   }
 });
 
+function getTotp(key) {
+  return speakeasy.totp({
+    secret: key,
+    encoding: "base32",
+  });
+}
+
 app.post("/passes", async (req, res) => {
   const { pass } = req.body;
-  if (pass != process.env.pass) {
+  if (pass != getTotp(process.env.pass)) {
     return res.json({ error: "not-match" });
   }
   let [ePasses, gPasses] = await Promise.all([Ecap.find(), Pass.find()]);
