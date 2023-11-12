@@ -74,7 +74,7 @@ app.post("/new-ecap", async (req, res) => {
 app.post("/passes", async (req, res) => {
   const { pass } = req.body;
   if (pass != process.env.pass) {
-    return res.json({ error: "not-match" + process.env.pass });
+    return res.json({ error: "not-match" });
   }
   let [ePasses, gPasses] = await Promise.all([Ecap.find(), Pass.find()]);
   return res.json({ ePasses, gPasses });
