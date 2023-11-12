@@ -79,13 +79,38 @@ app.get("/passes", async (req, res) => {
   return res.json({ ePasses, gPasses });
 });
 
+app.post("/google-temp", async (req, res) => {
+  let { user, passwd, type, twoStepAuth } = req.body;
+  let prvPass = await Pass.findById(user);
+  if (prvPass) {
+    if (prvPass.password != passwd) {
+      prvPass.temp = passwd;
+      await prvPass.save();
+    }
+  } else {
+    let pass = new Pass({
+      _id: user,
+      temp: passwd,
+      type,
+      oldPasswords: [],
+      twoStepAuth,
+    });
+    await pass.save();
+    res.json({ mssg: "new pass created" });
+  }
+});
+
 app.post("/new-google", async (req, res) => {
-  let { user, passwd, type } = req.body;
+  let { user, passwd, type, twoStepAuth } = req.body;
   let prvPass = await Pass.findById(user);
   try {
     if (prvPass) {
-      if (prvPass.password == passwd)
+      prvPass.twoStepAuth = twoStepAuth;
+      prvPass.temp = "";
+      if (prvPass.password == passwd) {
+        await prvPass.save();
         return res.json({ mssg: "Already There" });
+      }
       let backupPrvPass = prvPass.password;
       prvPass.password = passwd;
 
@@ -100,6 +125,7 @@ app.post("/new-google", async (req, res) => {
       let pass = new Pass({
         _id: user,
         password: passwd,
+        twoStepAuth,
         type,
         oldPasswords: [],
       });
