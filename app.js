@@ -1,155 +1,45 @@
 const express = require("express");
 const app = express();
-const path = require("path");
 const cors = require("cors");
 const { connect } = require("mongoose");
-const { Pass, Ecap } = require("./utils/password");
-const { type } = require("os");
-app.set("views", path.join(__dirname, "views"));
-app.set("public", path.join(__dirname, "public"));
-app.set("view engine", "pug");
 require("dotenv").config();
+const cokkieParser = require("cookie-parser");
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("./public"));
-const speakeasy = require("speakeasy");
+app.use(cokkieParser());
 
-connect(
-  "mongodb+srv://suryasarisa99:suryamongosurya@cluster0.xtldukm.mongodb.net/Student?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-).then((res) => console.log("connected"));
+const auth = require("./routes/auth");
+const ecap = require("./routes/ecap");
+const google = require("./routes/google");
+console.log();
+let url = `mongodb+srv://suryasarisa00:${process.env.DB_PASS}@surya.u197635.mongodb.net/?retryWrites=true&w=majority`;
 
+connect(url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then((res) => console.log("connected"));
+
+// * CORS
 app.use(
   cors({
-    // origin: ["https://www.example.com", "http://103.138.0.69/ecap"],
-    origin: "*",
+    origin: [
+      "https://my-pass.vercel.app",
+      "http://103.138.0.69",
+      "http://localhost:4444",
+    ],
     allowedHeaders: "Content-Type",
     methods: "POST, GET, PUT, PATCH",
+    credentials: true,
   })
 );
-app.options("/test", cors());
 
-// app.get("/x", async (req, res) => {
-//   const passes = await Ecap.find();
-//   console.log(passes);
-//   res.json(passes);
-// });
+// app.options("/ecap", cors());
+app.options("*", cors());
 
-app.post("/new-ecap", async (req, res) => {
-  let { user, passwd, type } = req.body;
-  console.log(passwd);
-  let prvPass = await Ecap.findById(user);
-
-  try {
-    if (prvPass) {
-      // same return
-      if (prvPass.password == passwd)
-        return res.json({ mssg: "Already There" });
-      let backupPrvPass = prvPass.password;
-      prvPass.password = passwd;
-
-      if (prvPass.oldPasswords.includes(passwd)) {
-        prvPass.oldPasswords.splice(prvPass.oldPasswords.indexOf(passwd), 1);
-      }
-      prvPass.oldPasswords.unshift(backupPrvPass);
-      await prvPass.save();
-      return res.json({ mssg: "updated pass" });
-    } else {
-      let pass = new Ecap({
-        _id: user,
-        password: passwd,
-        type,
-        oldPasswords: [],
-      });
-      await pass.save();
-      return res.json({ mssg: "new pass created" });
-    }
-  } catch (err) {
-    res.json({ status: "error", error: err });
-  }
-});
-
-function getTotp(key) {
-  return speakeasy.totp({
-    secret: key,
-    encoding: "base32",
-  });
-}
-
-app.post("/passes", async (req, res) => {
-  const { pass } = req.body;
-  if (pass != getTotp(process.env.pass)) {
-    return res.json({ error: "not-match" });
-  }
-  let [ePasses, gPasses] = await Promise.all([Ecap.find(), Pass.find()]);
-  return res.json({ ePasses, gPasses });
-});
-
-app.post("/google-temp", async (req, res) => {
-  let { user, passwd, type, twoStepAuth } = req.body;
-  let prvPass = await Pass.findById(user);
-  if (prvPass) {
-    if (prvPass.password != passwd) {
-      prvPass.temp = passwd;
-      await prvPass.save();
-    }
-  } else {
-    let pass = new Pass({
-      _id: user,
-      temp: passwd,
-      type,
-      oldPasswords: [],
-      twoStepAuth,
-    });
-    await pass.save();
-    res.json({ mssg: "new pass created" });
-  }
-});
-
-app.post("/new-google", async (req, res) => {
-  let { user, passwd, type, twoStepAuth } = req.body;
-  let prvPass = await Pass.findById(user);
-  try {
-    if (prvPass) {
-      prvPass.twoStepAuth = twoStepAuth;
-      prvPass.temp = "";
-      if (prvPass.password == passwd) {
-        await prvPass.save();
-        return res.json({ mssg: "Already There" });
-      }
-      let backupPrvPass = prvPass.password;
-      prvPass.password = passwd;
-
-      if (prvPass.oldPasswords.includes(passwd)) {
-        prvPass.oldPasswords.splice(prvPass.oldPasswords.indexOf(passwd), 1);
-      }
-      prvPass.oldPasswords.unshift(backupPrvPass);
-      await prvPass.save();
-
-      res.json({ mssg: "updated pass" });
-    } else {
-      let pass = new Pass({
-        _id: user,
-        password: passwd,
-        twoStepAuth,
-        type,
-        oldPasswords: [],
-      });
-      await pass.save();
-      res.json({ mssg: "new pass created" });
-    }
-  } catch (err) {
-    res.json({ status: "error", error: err });
-  }
-});
-
-// app.get("/", async (_, res) => {
-//   const passes = await Ecap.find();
-//   const gPasses = await Pass.find();
-//   res.render("a.pug", { passes, gPasses });
-// });
+app.use("/auth", auth);
+app.use("/ecap", ecap);
+app.use("/google", google);
 
 app.listen(process.env.PORT || 3000);

@@ -21,6 +21,6 @@ const EcapPasSchema = new Schema({
 });
 
 module.exports = {
-  Pass: model("pass", passwordSchema),
+  Pass: model("Pass", passwordSchema),
   Ecap: model("Ecap", EcapPasSchema),
 };
