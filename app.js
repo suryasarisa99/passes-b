@@ -24,14 +24,15 @@ connect(url, {
 // * CORS
 app.use(
   cors({
-    origin: [
-      "https://my-pass.vercel.app",
-      "http://103.138.0.69",
-      "http://localhost:4444",
-    ],
+    // origin: [
+    //   "https://my-pass.vercel.app",
+    //   "http://103.138.0.69",
+    //   "http://localhost:4444",
+    // ],
+    origin: "*",
     allowedHeaders: "Content-Type",
     methods: "POST, GET, PUT, PATCH",
-    credentials: true,
+    // credentials: true,
   })
 );
 
