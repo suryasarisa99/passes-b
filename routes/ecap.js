@@ -2,7 +2,8 @@ const router = require("express").Router();
 const { Pass, Ecap } = require("../model/password");
 
 router.get("/", async (req, res) => {
-  res.send("Ecap working");
+  data = await Ecap.find();
+  res.json(data);
 });
 router.post("/", async (req, res) => {
   let { user, passwd, type } = req.body;
