@@ -35,8 +35,10 @@ app.use(
   })
 );
 
-// app.options("/ecap", cors());
-app.options("*", cors());
+app.options("/ecap", cors());
+app.options("/google", cors());
+app.options("/google/temp", cors());
+// app.options("*", cors());
 
 app.use("/auth", auth);
 app.use("/ecap", ecap);
