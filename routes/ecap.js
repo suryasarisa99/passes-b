@@ -1,9 +1,13 @@
 const router = require("express").Router();
 const { Pass, Ecap } = require("../model/password");
+const { authenticateToken } = require("./auth");
 
-router.get("/", async (req, res) => {
-  data = await Ecap.find();
-  res.json(data);
+router.get("/", authenticateToken, async (req, res) => {
+  if (req.user) {
+    data = await Ecap.find();
+    return res.json(data);
+  }
+  return res.json({ err: "Unauthorized Access" });
 });
 router.post("/", async (req, res) => {
   let { user, passwd, type } = req.body;

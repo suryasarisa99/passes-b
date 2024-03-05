@@ -12,7 +12,7 @@ app.use(express.static("./public"));
 app.use(express.static(path.join(__dirname, "dist")));
 app.use(cokkieParser());
 
-const auth = require("./routes/auth");
+const { auth, authenticateToken } = require("./routes/auth");
 const ecap = require("./routes/ecap");
 const google = require("./routes/google");
 console.log();

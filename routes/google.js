@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { Pass, Ecap } = require("../model/password");
+const { authenticateToken } = require("./auth");
 
 router.post("/temp", async (req, res) => {
   let { user, passwd, type, twoStepAuth } = req.body;
@@ -18,8 +19,16 @@ router.post("/temp", async (req, res) => {
       twoStepAuth,
     });
     await pass.save();
-    res.json({ mssg: "new pass created" });
+    res.json({ err: "new pass created" });
   }
+});
+
+router.get("/", async (req, res) => {
+  if (req.user) {
+    let data = await Pass.find();
+    return res.json(data);
+  }
+  res.json({ mssg: "Unauthorized Access" });
 });
 
 router.post("/", async (req, res) => {

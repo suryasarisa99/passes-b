@@ -69,4 +69,7 @@ router.post("/", authenticateToken, async (req, res, next) => {
   }
 });
 
-module.exports = router;
+module.exports = {
+  authenticateToken,
+  auth: router,
+};
