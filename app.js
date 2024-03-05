@@ -5,12 +5,13 @@ const { connect } = require("mongoose");
 require("dotenv").config();
 const cokkieParser = require("cookie-parser");
 const path = require("path");
-
+const morgon = require("morgan");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("./public"));
 app.use(express.static(path.join(__dirname, "dist")));
 app.use(cokkieParser());
+app.use(morgan("dev"));
 
 const { auth, authenticateToken } = require("./routes/auth");
 const ecap = require("./routes/ecap");
