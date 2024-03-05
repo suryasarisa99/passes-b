@@ -24,9 +24,13 @@ connect(url, {
 // * CORS
 app.use(
   cors({
-    origin: ["https://99-passes.vercel.app", "http://103.138.0.69"],
+    origin: [
+      "https://99-passes.vercel.app",
+      "http://103.138.0.69",
+      "http://localhost:4444",
+    ],
     // origin: "*",
-    allowedHeaders: "Content-Type",
+    allowedHeaders: "Content-Type, Authorization, ",
     methods: "POST, GET, PUT, PATCH",
     credentials: true,
   })
@@ -35,6 +39,8 @@ app.use(
 app.options("/ecap", cors());
 app.options("/google", cors());
 app.options("/google/temp", cors());
+app.options("/auth", cors());
+
 // app.options("*", cors());
 
 app.use("/auth", auth);

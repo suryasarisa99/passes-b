@@ -29,8 +29,11 @@ function getTotp(key) {
   });
 }
 
+// login
+
 router.post("/", authenticateToken, async (req, res, next) => {
   const { pass } = req.body;
+  console.log("headers: ", req.headers);
   if (
     pass == process.env.PASSWORD ||
     pass == getTotp(process.env.TOTP_KEY) ||
@@ -40,12 +43,22 @@ router.post("/", authenticateToken, async (req, res, next) => {
     if (pass == process.env.PASSWORD) {
       try {
         let token = jwt.sign({ permanent: true }, process.env.JWT_SECRET);
-        res.cookie("permanent", token, { maxAge: 3600000, httpOnly: true });
+        res.cookie("permanent", token, {
+          maxAge: 36000000000,
+          httpOnly: false,
+          sameSite: "none",
+          secure: false,
+        });
       } catch (err) {
         console.log(err);
       }
     }
-    res.cookie("tetting", "test", { maxAge: 3600000 });
+    res.cookie("testing", {
+      maxAge: 36000000000,
+      httpOnly: false,
+      sameSite: "none",
+      secure: false,
+    });
     return res.json({
       ePasses,
       gPasses,
