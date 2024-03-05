@@ -46,9 +46,9 @@ router.post("/", authenticateToken, async (req, res, next) => {
         res.cookie("permanent", token, {
           maxAge: 36000000000,
           httpOnly: true,
-          sameSite: "none",
+          sameSite: "strict",
           secure: true,
-          domain: "99-passes.vercel.app",
+          domain: "vercel.app",
         });
       } catch (err) {
         console.log(err);
@@ -57,9 +57,9 @@ router.post("/", authenticateToken, async (req, res, next) => {
     res.cookie("testing", "hii", {
       maxAge: 36000000000,
       httpOnly: true,
-      sameSite: "none",
+      sameSite: "strict",
       secure: true,
-      domain: "99-passes.vercel.app",
+      domain: "vercel.app",
     });
     return res.json({
       ePasses,
