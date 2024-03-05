@@ -48,19 +48,17 @@ router.post("/", authenticateToken, async (req, res, next) => {
           httpOnly: true,
           sameSite: "strict",
           secure: true,
-          domain: "vercel.app",
         });
       } catch (err) {
         console.log(err);
       }
     }
-    res.cookie("testing", "hii", {
-      maxAge: 36000000000,
-      httpOnly: true,
-      sameSite: "strict",
-      secure: true,
-      domain: "vercel.app",
-    });
+    // res.cookie("testing", "hii", {
+    //   maxAge: 36000000000,
+    //   httpOnly: true,
+    //   sameSite: "strict",
+    //   secure: true,
+    // });
     return res.json({
       ePasses,
       gPasses,

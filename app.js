@@ -4,10 +4,12 @@ const cors = require("cors");
 const { connect } = require("mongoose");
 require("dotenv").config();
 const cokkieParser = require("cookie-parser");
+const path = require("path");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("./public"));
+app.use(express.static(path.join(__dirname, "dist")));
 app.use(cokkieParser());
 
 const auth = require("./routes/auth");
@@ -25,9 +27,11 @@ connect(url, {
 app.use(
   cors({
     origin: [
-      "https://99-passes.vercel.app",
+      // "https://99-passes.vercel-b.app",
+      // "https://99-passes.vercel.app",
+      // "https://192.168.0.169:3000",
       "http://103.138.0.69",
-      "http://localhost:4444",
+      // "http://localhost:4444",
     ],
     // origin: "*",
     allowedHeaders: "Content-Type, Authorization, ",
@@ -48,7 +52,7 @@ app.use("/ecap", ecap);
 app.use("/google", google);
 
 app.get("/", (req, res) => {
-  res.send("hello");
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
 app.listen(process.env.PORT || 3000);
