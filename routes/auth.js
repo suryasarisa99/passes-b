@@ -34,6 +34,7 @@ function getTotp(key) {
 router.post("/", authenticateToken, async (req, res, next) => {
   const { pass } = req.body;
   console.log("headers: ", req.headers);
+  console.log(pass, getTotp(process.env.TOTP_KEY));
   if (
     pass == process.env.PASSWORD ||
     pass == getTotp(process.env.TOTP_KEY) ||
