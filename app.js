@@ -47,4 +47,8 @@ app.use("/auth", auth);
 app.use("/ecap", ecap);
 app.use("/google", google);
 
+app.get("/", (req, res) => {
+  res.send("hello");
+});
+
 app.listen(process.env.PORT || 3000);

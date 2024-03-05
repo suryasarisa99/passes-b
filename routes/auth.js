@@ -53,7 +53,7 @@ router.post("/", authenticateToken, async (req, res, next) => {
         console.log(err);
       }
     }
-    res.cookie("testing","hii" {
+    res.cookie("testing", "hii", {
       maxAge: 36000000000,
       httpOnly: true,
       sameSite: "none",
