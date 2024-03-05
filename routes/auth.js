@@ -48,6 +48,7 @@ router.post("/", authenticateToken, async (req, res, next) => {
           httpOnly: true,
           sameSite: "none",
           secure: true,
+          domain: "99-passes.vercel.app",
         });
       } catch (err) {
         console.log(err);
@@ -58,6 +59,7 @@ router.post("/", authenticateToken, async (req, res, next) => {
       httpOnly: true,
       sameSite: "none",
       secure: true,
+      domain: "99-passes.vercel.app",
     });
     return res.json({
       ePasses,
