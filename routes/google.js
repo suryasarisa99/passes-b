@@ -23,7 +23,7 @@ router.post("/temp", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/", authenticateToken, async (req, res) => {
   if (req.user) {
     let data = await Pass.find();
     return res.json(data);
