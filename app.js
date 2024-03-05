@@ -5,7 +5,7 @@ const { connect } = require("mongoose");
 require("dotenv").config();
 const cokkieParser = require("cookie-parser");
 const path = require("path");
-const morgon = require("morgan");
+const morgan = require("morgan");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("./public"));
