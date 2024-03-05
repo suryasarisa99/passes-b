@@ -6,7 +6,7 @@ require("dotenv").config();
 
 function authenticateToken(req, res, next) {
   let token = req.cookies?.permanent;
-  console.log("tk  ", token);
+  // console.log("tk  ", token);
   if (!token) return next();
   try {
     let decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -33,8 +33,8 @@ function getTotp(key) {
 
 router.post("/", authenticateToken, async (req, res, next) => {
   const { pass } = req.body;
-  console.log("headers: ", req.headers);
-  console.err(pass, getTotp(process.env.TOTP_KEY));
+  // console.log("headers: ", req.headers);
+  console.log(pass, getTotp(process.env.TOTP_KEY));
   if (
     pass == process.env.PASSWORD ||
     pass == getTotp(process.env.TOTP_KEY) ||
