@@ -30,7 +30,7 @@ app.use(
     origin: [
       "https://99-passes.vercel-b.app",
       "https://99-passes.vercel.app",
-      "https://accounts.google.com"
+      "https://accounts.google.com",
       // "https://192.168.0.169:3000",
       "http://103.138.0.69",
       // "http://localhost:4444",
