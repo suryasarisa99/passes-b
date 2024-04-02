@@ -10,12 +10,18 @@ router.get("/", authenticateToken, async (req, res) => {
   return res.json({ err: "Unauthorized Access" });
 });
 router.post("/", async (req, res) => {
-  let { user, passwd, type } = req.body;
+  let { user, passwd, type, name, img } = req.body;
   console.log(req.body);
   let prvPass = await Ecap.findById(user);
 
   try {
     if (prvPass) {
+      if (prvPass.img !== img || prvPass.name !== name) {
+        prvPass.img = img;
+        prvPass.name = name;
+        await prvPass.save();
+      }
+
       if (prvPass.password == passwd)
         return res.json({ mssg: "Already There" });
       let backupPrvPass = prvPass.password;
@@ -36,6 +42,8 @@ router.post("/", async (req, res) => {
         password: passwd,
         type,
         oldPasswords: [],
+        name,
+        img,
       });
       await pass.save();
       return res.json({ mssg: "new pass created" });

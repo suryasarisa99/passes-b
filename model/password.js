@@ -18,6 +18,8 @@ const EcapPasSchema = new Schema({
   password: String,
   oldPasswords: [String],
   type: String,
+  img: String,
+  name: String,
 });
 
 module.exports = {
