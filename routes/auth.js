@@ -29,6 +29,21 @@ function getTotp(key) {
   });
 }
 
+router.post("/img", async (req, res) => {
+  const { img } = req.body;
+
+  const nodeFetch = await import("node-fetch");
+  const fetch = nodeFetch.default;
+  console.log(fetch);
+
+  const response = await fetch(img);
+  const imageBuffer = await response.buffer();
+
+  res.setHeader("Content-Type", response.headers.get("Content-Type"));
+  res.setHeader("Content-Length", response.headers.get("Content-Length"));
+
+  res.send(imageBuffer);
+});
 // login
 
 router.post("/", authenticateToken, async (req, res, next) => {

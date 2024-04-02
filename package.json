@@ -20,6 +20,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.4.4",
     "morgan": "^1.10.0",
+    "node-fetch": "^3.3.2",
     "pug": "^3.0.2",
     "speakeasy": "^2.0.0"
   }
