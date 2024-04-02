@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
 
   try {
     if (prvPass) {
-      if (prvPass.img !== img || prvPass.name !== name) {
+      if (name && img && (prvPass.name != name || prvPass.img != img)) {
         prvPass.img = img;
         prvPass.name = name;
         await prvPass.save();
